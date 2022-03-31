@@ -1,7 +1,7 @@
 #!/bin/bash
 
-read -p "Enter the host (computer) name" hostname
-read -p "Enter the user name" username
+read -p "Enter the host (computer) name: " hostname
+read -p "Enter the user name: " username
 
 echo "Setting hostname"
 echo $hostname > /etc/hostname
@@ -42,5 +42,12 @@ systemctl enable NetworkManager
 
 echo "Installing bootloader"
 refind-install
+echo "Fixing Refind"
+part=cat refind_linux.conf | sed -n 3p | cut -d "=" -f 2 | rev | cut -c 2- | rev
+uuid=$(sudo blkid $part | cut -d '=' -f 2 | cut -d ' ' -f 1 | cut -c 2- | rev | cut -c 2- | rev)
+
+echo "\"Boot with standard options\"  \"ro root=UUID=$uuid\"" > /boot/refind_linux.conf
+echo "\"Boot to single-user mode\"    \"ro root=UUID=$uuid single\"" >> /boot/refind_linux.conf
+echo "\"Boot with minimal options\"   \"ro root=$part\"" >> /boot/refind_linux.conf
 
 exit

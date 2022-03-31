@@ -5,8 +5,8 @@ timedatectl set-ntp true
 
 echo "Disk partioning"
 echo "Format and mount disks?"
-read -p "Y/n" format
-if [ $format == "Y" ] || [$format == "y"] || [$format == ""]; then
+read -p "y/n: " format
+if [[ $format == "y" ]]; then
 
     # TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
     
@@ -21,7 +21,7 @@ if [ $format == "Y" ] || [$format == "y"] || [$format == ""]; then
 fi
 
 echo "Installing basic packages"
-pacstrap /mnt base linux-zen linux-zen-headers linux-firmware networkmanager refind git
+pacstrap /mnt base linux-zen linux-zen-headers linux-firmware networkmanager refind git sudo
 
 echo "Generating fstab"
 genfstab -U /mnt >> /mnt/etc/fstab

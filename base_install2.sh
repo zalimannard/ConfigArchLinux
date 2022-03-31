@@ -43,7 +43,7 @@ systemctl enable NetworkManager
 echo "Installing bootloader"
 refind-install
 echo "Fixing Refind"
-part=cat refind_linux.conf | sed -n 3p | cut -d "=" -f 2 | rev | cut -c 2- | rev
+part=$(cat /boot/refind_linux.conf | sed -n 3p | cut -d "=" -f 2 | rev | cut -c 2- | rev)
 uuid=$(sudo blkid $part | cut -d '=' -f 2 | cut -d ' ' -f 1 | cut -c 2- | rev | cut -c 2- | rev)
 
 echo "\"Boot with standard options\"  \"ro root=UUID=$uuid\"" > /boot/refind_linux.conf

@@ -11,7 +11,7 @@ if [ $format == "Y" ] || [$format == "y"] || [$format == ""]; then
     # TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
     
     echo "Disk Formatting"
-    mkfs.btrfs -f /dev/nvme0n1p7
+    mkfs.ext4 -f /dev/nvme0n1p7
     mkfs.fat -F32 /dev/nvme0n1p5
     
     echo "Disk Mounting"
@@ -22,7 +22,7 @@ if [ $format == "Y" ] || [$format == "y"] || [$format == ""]; then
 fi
 
 echo "Installing basic packages"
-pacstrap /mnt base linux-zen linux-zen-headers linux-firmware networkmanager git
+pacstrap /mnt base linux-zen linux-zen-headers linux-firmware networkmanager refind git
 
 echo "Generating fstab"
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -63,6 +63,9 @@ pacman -Syu
 
 echo "Setting internet autostart"
 systemctl enable NetworkManager
+
+echo "Installing bootloader"
+refind-install
 
 echo "Installation is complete. You can restart the computer and run install.sh for full customization."
 exit

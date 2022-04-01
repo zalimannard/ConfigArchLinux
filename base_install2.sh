@@ -32,11 +32,6 @@ passwd $username
 echo "Setting sudo"
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
-echo "Making multilib available"
-echo "[multilib]" >> /etc/pacman.conf
-echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
-pacman -Syu
-
 echo "Setting internet autostart"
 systemctl enable NetworkManager
 

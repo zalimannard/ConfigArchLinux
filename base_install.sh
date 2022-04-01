@@ -1,23 +1,29 @@
 #!/bin/bash
 
+echo *****************************************************************
+echo * From these disks, you need to select root and efi partitions. *
+echo * If the disks are not partitioned, do it with cfdisk           *
+echo *****************************************************************
+fdisk -l
+
 echo "Clock synchronization"
 timedatectl set-ntp true
 
 echo "Disk partioning"
+read -p "Enter the root partion" root_path
+read -p "Enter the efi partion" efi_path
 echo "Format and mount disks?"
 read -p "y/n: " format
 if [[ $format == "y" ]]; then
-
-    # TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
     
     echo "Disk Formatting"
-    yes | mkfs.ext4 /dev/nvme0n1p7
-    mkfs.fat -F32 /dev/nvme0n1p5
+    yes | mkfs.ext4 $root_path
+    mkfs.fat -F32 $efi_path
     
     echo "Disk Mounting"
-    mount /dev/nvme0n1p7 /mnt
+    mount $root_path /mnt
     mkdir -p /mnt/boot/efi
-    mount /dev/nvme0n1p5 /mnt/boot/efi
+    mount $efi_path /mnt/boot/efi
 fi
 
 echo "Installing basic packages"

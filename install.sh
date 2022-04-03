@@ -7,8 +7,17 @@ echo "[multilib]" | sudo tee --append /etc/pacman.conf
 echo "Include = /etc/pacman.d/mirrorlist" | sudo tee --append /etc/pacman.conf
 
 
-# Folder for configurations
+# Folders
+#---- Folder for configurations
 mkdir ~/.config
+#---- User's folder
+mkdir ~/Music
+mkdir ~/Picture
+mkdir ~/Picture
+mkdir ~/Video
+mkdir ~/Downloads
+#-------- Wallpaper
+cp -r ./home/user/Picture/Wallpapers ~/Picture
 
 
 # Full update before installation
@@ -30,7 +39,7 @@ sudo pacman -S base-devel git --noconfirm
 # File Systems
 # NTFS
 sudo pacman -S ntfs-3g --noconfirm
-# Exfat
+# ExFAT
 sudo pacman -S exfat-utils --noconfirm
 
 
@@ -70,11 +79,16 @@ rm -rf nerd-fonts-source-code-pro
 
 # AwesomeWM
 # X11
-sudo pacman -S xorg xorg-init xorg-server --noconfirm
+sudo pacman -S xorg xorg-xinit xorg-server --noconfirm
+#touch ~/.xinitrc
+#echo "#!/bin/bash" > ~/.xinitrc
+#echo "exec awesome" >> ~/.xinitrc
 # Sddm
 sudo pacman -S sddm --noconfirm
+systemctl enable sddm
 # AwesomeWM
 sudo sudo pacman -S awesome --noconfirm
+cp -r ./home/user/.config/awesome ~/.config/
 
 
 # Picom (fork by Jonaburg)
@@ -83,10 +97,13 @@ cd picom-jonaburg-git
 makepkg -si --noconfirm
 cd ..
 rm -rf picom-jonaburg-git
+# Config
+cp ./home/user/.config/picom ~/.config/
 
 
 # Bluetooth
 sudo pacman -S bluez bluez-utils blueman --noconfirm
+systemctl enable bluetooth.service
 
 
 # Audio
@@ -126,26 +143,27 @@ makepkg -si --noconfirm
 cd ..
 rm -rf tor-browser
 # Yandex-Browser
+# https://aur.archlinux.org/yandex-browser.git
     # Dependencies for gconf
-sudo pacman -S intltool gtk-doc gobject-introspection gnome-common --noconfirm
+#sudo pacman -S intltool gtk-doc gobject-introspection gnome-common --noconfirm
     # Gconf
-git clone https://aur.archlinux.org/gconf.git
-cd gconf
-makepkg -si --noconfirm
-cd ..
-rm -rf gconf
+#git clone https://aur.archlinux.org/gconf.git
+#cd gconf
+#makepkg -si --noconfirm
+#cd ..
+#rm -rf gconf
     # Other dependency
-sudo pacman -S gtk2 harfbuzz-icu chromium --noconfirm
+#sudo pacman -S gtk2 harfbuzz-icu chromium --noconfirm
     # Browser
-git clone https://aur.archlinux.org/yandex-browser-beta.git
-cd yandex-browser-beta
-makepkg -si --noconfirm
-cd ..
-rm -rf yandex-browser-beta
+#git clone https://aur.archlinux.org/yandex-browser-beta.git
+#cd yandex-browser-beta
+#makepkg -si --noconfirm
+#cd ..
+#rm -rf yandex-browser-beta
     # Fixing video playback for Yandex Browser
     # Dependencies
-sudo pacman -S wget jq --noconfirm
-sudo /opt/yandex/browser-beta/update-ffmpeg
+#sudo pacman -S wget jq --noconfirm
+#sudo /opt/yandex/browser-beta/update-ffmpeg
 
 
 # Torrent
@@ -161,9 +179,31 @@ sudo pacman -S neovim --noconfirm
 # Export config from other repository
 
 
-# Terminal Emulator
-# Kitty
+# Terminal
+#---- Terminal Emulator
+#-------- Kitty
 sudo pacman -S kitty --noconfirm
+cp -r ./home/user/.config/kitty ~/.config/
+#---- Shells
+#-------- Zsh
+sudo pacman -S zsh --noconfirm
+sudo pacman -S zsh-completions --noconfirm
+#------------ Oh My Zsh
+#git clone https://aur.archlinux.org/oh-my-zsh-git.git
+#cd oh-my-zsh-git
+#makepkg -si --noconfirm
+#cd ..
+#rm -rf oh-my-zsh-git
+#------------ Zsh Syntax Highlighting
+#sudo pacman -S zsh-syntax-highlighting --noconfirm
+#------------ Powerlevel10k
+#sudo pacman -S zsh-theme-powerlevel10k --noconfirm
+#echo "source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme" >>! ~/.zshrc
+#------------ Configs
+cp ./home/user/.zshrc ~/
+cp ./home/user/.p10k.zsh ~/
+#-------- Change default shell
+chsh -s /bin/zsh
 
 
 # Players
@@ -213,4 +253,5 @@ sudo pacman -S ark --noconfirm
 sudo pacman -S discord --noconfirm
 
 
-
+# Terminal utils
+sudo pacman -S tree --noconfirm

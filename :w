@@ -33,9 +33,9 @@ echo "Generating fstab"
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo "Changing root"
-cp -r ../ConfigArchLinux /mnt/home
-arch-chroot /mnt bash /home/ConfigArchLinux/base_install2.sh
-em -r /mnt/home/ConfigArchLinux
+mv base_install2.sh /mnt/home
+arch-chroot /mnt bash /home/base_install2.sh
+rm /mnt/home/base_install2.sh
 umount -R /mnt
 
 echo "Installation is complete. You can restart the computer and run install.sh for full customization."

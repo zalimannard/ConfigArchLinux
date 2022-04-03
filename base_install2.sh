@@ -45,4 +45,7 @@ echo "\"Boot with standard options\"  \"ro root=UUID=$uuid\"" > /boot/refind_lin
 echo "\"Boot to single-user mode\"    \"ro root=UUID=$uuid single\"" >> /boot/refind_linux.conf
 echo "\"Boot with minimal options\"   \"ro root=$part\"" >> /boot/refind_linux.conf
 
+echo "Moving ConfigArchLinux"
+cp -r /mnt/home/ConfigArchLinux "mnt/home/${username}/ConfigArchLinux"
+
 exit

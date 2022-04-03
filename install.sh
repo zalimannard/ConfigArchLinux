@@ -3,8 +3,8 @@
 
 # Activate multilib repository
 echo "Making multilib available"
-echo "[multilib]" >> /etc/pacman.conf
-echo "Include = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf
+echo "[multilib]" | sudo tee --append /etc/pacman.conf
+echo "Include = /etc/pacman.d/mirrorlist" | sudo tee --append /etc/pacman.conf
 
 
 # Folder for configurations
@@ -12,213 +12,205 @@ mkdir ~/.config
 
 
 # Full update before installation
-echo | sudo pacman -Syu
+sudo pacman -Syu --noconfirm
 
 
 # Pacman
 # Update GPG
-echo | sudo pacman-key --init
-echo | sudo pacman-key --populate archlinux
-echo | sudo pacman-key --refresh-keys
-echo | sudo pacman -Sy
+sudo pacman-key --init
+sudo pacman-key --populate archlinux
+sudo pacman-key --refresh-keys
+sudo pacman -Sy
 
 
 # Preparing for installation
-echo | pacman -S base-devel git
+sudo pacman -S base-devel git --noconfirm
 
 
 # File Systems
 # NTFS
-echo | pacman -S ntfs-3g
+sudo pacman -S ntfs-3g --noconfirm
 # Exfat
-echo | pacman -S exfat-utils
+sudo pacman -S exfat-utils --noconfirm
 
 
 # Archives
-echo | pacman -S unrar unzip
+sudo pacman -S unrar unzip --noconfirm
 
 
 # AUR-Helpers
 # Yay
 git clone https://aur.archlinux.org/yay.git
 cd yay
-echo | makepkg -si
+makepkg -si --noconfirm
 cd ..
 rm -rf yay
 
 
 # Fonts
 # Roboto
-echo | sudo pacman -S ttf-roboto ttf-roboto-mono ttf-roboto-slab
+sudo pacman -S ttf-roboto ttf-roboto-mono ttf-roboto-slab --noconfirm
 # JetBrains mono
-echo | sudo pacman -S ttf-jetbrains-mono
+sudo pacman -S ttf-jetbrains-mono --noconfirm
 # JetBrains mono Nerd
 git clone https://aur.archlinux.org/nerd-fonts-jetbrains-mono.git
 cd nerd-fonts-jetbrains-mono
-echo | makepkg -si
+makepkg -si --noconfirm
 cd ..
 rm -rf nerd-fonts-jetbrains-mono
 # Source code pro
-echo | sudo pacman -S adobe-source-code-pro-fonts
+sudo pacman -S adobe-source-code-pro-fonts --noconfirm
 # Nerd Source code pro
 git clone https://aur.archlinux.org/nerd-fonts-source-code-pro.git
 cd nerd-fonts-source-code-pro
-echo | makepkg -si
+makepkg -si --noconfirm
 cd ..
 rm -rf nerd-fonts-source-code-pro
 
 
 # AwesomeWM
 # X11
-echo | pacman -S xorg xorg-init xorg-server
+sudo pacman -S xorg xorg-init xorg-server --noconfirm
+# Sddm
+sudo pacman -S sddm --noconfirm
 # AwesomeWM
-echo | sudo pacman -S awesome
+sudo sudo pacman -S awesome --noconfirm
 
 
 # Picom (fork by Jonaburg)
 git clone https://aur.archlinux.org/picom-jonaburg-git.git
 cd picom-jonaburg-git
-echo | makepkg -si
+makepkg -si --noconfirm
 cd ..
 rm -rf picom-jonaburg-git
 
 
-# Eww
-echo | sudo pacman -Rsn rust
-echo | sudo pacman -S rustup
-git clone https://aur.archlinux.org/eww-git.git
-cd eww-git
-echo | makepkg -si
-cd ..
-rm -rf eww-git
-
-
 # Bluetooth
-echo | sudo pacman -S bluez bluez-utils blueman
+sudo pacman -S bluez bluez-utils blueman --noconfirm
 
 
 # Audio
 # Pipewire
-echo | sudo pacman -S pipewire pipewire-alsa pipewire-pulse gst-plugin-pipewire
+sudo pacman -S pipewire pipewire-alsa pipewire-pulse gst-plugin-pipewire --noconfirm
 # Audio control
-echo | sudo pacman -S pamixer
+sudo pacman -S pamixer --noconfirm
 # Media control
-echo | sudo pacman -S playerctl
+sudo pacman -S playerctl --noconfirm
 
 
 # Video
 # NVIDIA proprietary drivers
-if [[ `lspci | grep -E "VGA|3D"` == *NVIDIA* ]]; then
-	echo | sudo pacman -S nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader lib32-opencl-nvidia opencl-nvidia libxnvctrl
-	sudo mkinitcpio -P
-	sudo cp etc/mkinitcpio.conf /etc/mkinitcpio.conf
-	sudo mkinitcpio -P
-fi
+#if [[ `lspci | grep -E "VGA|3D"` == *NVIDIA* ]]; then
+#	sudo pacman -S nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings vulkan-icd-loader lib32-vulkan-icd-loader lib32-opencl-nvidia opencl-nvidia libxnvctrl --noconfirm
+#	sudo mkinitcpio -P
+#	sudo cp etc/mkinitcpio.conf /etc/mkinitcpio.conf
+#	sudo mkinitcpio -P
+#fi
 # Brightness control
-echo | sudo pacman -S brightnessctl
+sudo pacman -S brightnessctl --noconfirm
 
 
 # Themes
-echo | pacman oxygen oxygen-icons breeze
+sudo pacman -S oxygen oxygen-icons breeze --noconfirm
 
 
 # Dolphin - File Manager
-echo | sudo pacman -S dolphin
+sudo pacman -S dolphin --noconfirm
 
 
 # Browsers
 # Tor-browser
 git clone https://aur.archlinux.org/tor-browser.git
 cd tor-browser
-echo | makepkg -si
+makepkg -si --noconfirm
 cd ..
 rm -rf tor-browser
 # Yandex-Browser
     # Dependencies for gconf
-echo | sudo pacman -S intltool gtk-doc gobject-introspection gnome-common
+sudo pacman -S intltool gtk-doc gobject-introspection gnome-common --noconfirm
     # Gconf
 git clone https://aur.archlinux.org/gconf.git
 cd gconf
-echo | makepkg -si
+makepkg -si --noconfirm
 cd ..
 rm -rf gconf
     # Other dependency
-echo | sudo pacman -S gtk2 harfbuzz-icu chromium
+sudo pacman -S gtk2 harfbuzz-icu chromium --noconfirm
     # Browser
 git clone https://aur.archlinux.org/yandex-browser-beta.git
 cd yandex-browser-beta
-echo | makepkg -si
+makepkg -si --noconfirm
 cd ..
 rm -rf yandex-browser-beta
     # Fixing video playback for Yandex Browser
     # Dependencies
-echo | sudo pacman -S wget jq
+sudo pacman -S wget jq --noconfirm
 sudo /opt/yandex/browser-beta/update-ffmpeg
 
 
 # Torrent
-echo | sudo pacman -S transmission-qt
+sudo pacman -S transmission-qt --noconfirm
 
 
 # Kate
-echo | sudo pacman -S kate
+sudo pacman -S kate --noconfirm
 
 
 # Neovim
-echo | sudo pacman -S neovim
+sudo pacman -S neovim --noconfirm
 # Export config from other repository
 
 
 # Terminal Emulator
 # Kitty
-echo | sudo pacman -S kitty
+sudo pacman -S kitty --noconfirm
 
 
 # Players
 ## Vlc
-echo | sudo pacman -S vlc
+sudo pacman -S vlc --noconfirm
 ## Mpv
-echo | sudo pacman -S mpv
+sudo pacman -S mpv --noconfirm
 
 
 # Krita - Image Editor
-echo | sudo pacman -S krita
+sudo pacman -S krita --noconfirm
 
 
 # Gwenview
-echo | sudo pacman -S gwenview
+sudo pacman -S gwenview --noconfirm
 
 
 # Flameshot
-echo | sudo pacman -S flameshot
+sudo pacman -S flameshot --noconfirm
 
 
 # Inkscape
-echo | sudo pacman -S inkscape
+sudo pacman -S inkscape --noconfirm
 
 
 # OBS
-echo | sudo pacman -S obs-studio
+sudo pacman -S obs-studio --noconfirm
 
 
 # Telegram
-echo | sudo pacman -S telegram-desktop
+sudo pacman -S telegram-desktop --noconfirm
 
 
 # SimpleScreenRecorder
-echo | sudo pacman -S simplescreenrecorder
+sudo pacman -S simplescreenrecorder --noconfirm
 
 
 # Okular
-echo | sudo pacman -S okular
+sudo pacman -S okular --noconfirm
 
 
 # Ark
-echo | sudo pacman -S ark
+sudo pacman -S ark --noconfirm
 
 
 # Discord
-echo | sudo pacman -S discord
+sudo pacman -S discord --noconfirm
 
 
 
